@@ -5,7 +5,7 @@ import {getNameBreeds} from '../../actions';
 
 export default function SearchBar(){
  const dispatch = useDispatch() 
- const [name, setName] = useState('') 
+ const [name, setName] = useState("") 
 
 function handleInputChange(e){  //para guardar en mi estado local lo q vaya apareciendo en el input 
  e.preventDefault()
@@ -23,8 +23,8 @@ function handleSubmit(e){
 
 return ( 
  <div>
-     <input type = 'text' placeholder = 'Search breed...' value= {name} onChange = {(e) => handleInputChange(e)} /> {/* Si no pongo value funciona, pero no se limpia el placeholder, onKeyDpwn se descomenta si quiero reemplazar el boton por el enter */}
-     <button type = 'submit' onSubmit = {(e) => handleSubmit(e)}>Search</button>
+     <input type = 'text' placeholder = 'Search breed...' value= {name} onChange = {(e) => handleInputChange(e)} /> {/* Si no pongo value funciona, pero no se limpia el placeholder */}
+     <button type = 'submit' onClick = {(e) => handleSubmit(e)}>Search</button>
  </div>
 )
 }

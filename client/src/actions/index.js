@@ -67,7 +67,7 @@ export function getNameBreeds(name){
 export function postBreed (payload){ 
  return async function(dispatch){
      try {
-        var response = await axios.post("http://localhost:3001/breed", payload);  
+        const response = await axios.post("http://localhost:3001/breed", payload);  
         console.log(response)
         return response
      } catch (error) {
@@ -90,5 +90,3 @@ export function getDetail (id){
      }
     }
 }
-
-export const unmountAllBreeds = () => ({type: 'UNMOUNT_ALL_BREEDS'})

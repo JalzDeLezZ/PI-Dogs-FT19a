@@ -12,7 +12,7 @@ function rootReducer (state= initialState, action){
 
   case 'GET_TEMPERAMENT': return {...state, temperaments: action.payload}
   
-  case 'GET_NAME_BREEDS': return {...state, breeds: action.payload/* , backUpBreeds: action.payload */} 
+  case 'GET_NAME_BREEDS': return {...state, breeds: action.payload}
   
   case 'POST_BREED': return {...state,} //No hace nada sólo devuelve el estado como está porq voy a crearlo en una ruta nueva, pero si o si tiene q estar en el reducer
   
@@ -55,12 +55,8 @@ function rootReducer (state= initialState, action){
   })
    return { ...state, breeds: sortedArr1}
   
-   case 'UNMOUNT_ALL_BREEDS': return {...state, detail: []}
-  
   default: return state;
  } 
 }
-
-
 
 export default rootReducer;

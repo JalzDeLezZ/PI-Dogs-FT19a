@@ -1,6 +1,6 @@
-const getAllTemperaments = require('../Controllers/Temperaments')
+const getAllTemperaments = require('../controllers/temperaments')
 const { Temperament } = require('../db');  //Sin esto no funcionan findAll y resto de propiedades sequelize
-// const axios = require('axios');
+const axios = require('axios');
 const router = require('express').Router();
 
 

@@ -5,35 +5,35 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('breed', {
     id: {
-      type: DataTypes.UUID, // genera un num random unico, es un datatype predeterminado de sequelize
+      type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      allowNull: false, // no puede estar vacío, por eso está en false
-      primaryKey : true
+      allowNull: false,
+      primaryKey: true
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
-    height: { 
+    image: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true,
+    },
+    height: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     weight: {
       type: DataTypes.STRING,
       allowNull: false,
-    }, 
+    },
     life_span: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
-    imagen: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    createInDb: {
-      type: DataTypes.BOOLEAN,
+    createdInDb:{
+      type:DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true
-    },
+    }
   });
-}; 
+};

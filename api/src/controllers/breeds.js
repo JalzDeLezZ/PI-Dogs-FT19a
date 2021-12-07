@@ -8,7 +8,7 @@ const axios = require('axios');
 
 const getApiInfo = async () => {
    try {
-      const getInfo = await axios.get('https://api.thedogapi.com/v1/breeds', { headers: {'x-api-key': `${API_KEY}` }})
+      const getInfo = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`);
       const apiInfo = await getInfo.data.map(el => {
        return {
            id: el.id,
