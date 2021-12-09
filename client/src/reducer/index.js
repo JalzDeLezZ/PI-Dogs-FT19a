@@ -38,10 +38,15 @@ function rootReducer (state= initialState, action){
     if(Number(b.weight.split('-')[0]) > (Number(a.weight.split('-')[0] ))) return 1
     return 0;
   })}
+
      
   case 'FILTER_CREATED': 
-  const statusFiltered2 = action.payload === 'created'? state.backUpBreeds.filter(el => el.createdInDb) : state.backUpBreeds.filter(el => !el.createdInDb)
-  return {...state, breeds: action.payload === 'All'? state.backUpBreeds : statusFiltered2} 
+  const allBreeds2 = state.backUpBreeds
+  const createdFilter = action.payload === 'created' ? allBreeds2.filter(e => e.createdInDb) : allBreeds2.filter(e => !e.createdInDb)
+  return {
+      ...state,
+      breeds: action.payload === 'all' ? state.backUpBreeds : createdFilter
+  }
   
   case 'ORDER_BY_NAME':
    let sortedArr1 = action.payload === 'asc' ? state.breeds.sort(function (a, b){

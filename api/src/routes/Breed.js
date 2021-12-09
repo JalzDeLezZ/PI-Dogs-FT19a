@@ -37,22 +37,27 @@ router.get('/breeds/:id', async (req, res) => {
 
 //POST/breed
 router.post('/breed', async (req, res) => {
-    let { name, image, height, weight, life_span, temperament, createdInDb} = req.body;
-    console.log(typeof height)
-    let breedCreated = await Breed.create({   //Para crear la raza uso el modelo Breed + create pq quedará en base de datos, no le paso temperamento pq está en una relación aparte en la DB
-      name,
-      image,
-      height,
-      weight,
-      life_span,
-      createdInDb
-    })
-    let temperamentsDb = await Temperament.findAll({
-      where: {name:temperament}  //Debe ser igual al temperament que le paso por body
-    })
-    breedCreated.addTemperament(temperamentsDb)
-    res.send('Breed created successfully')
-  })
+  let { name, image, height_min, height_max, weight_min, weight_max, life_span, temperament, createdInDb} = req.body;
+    try {
+        let breedCreated = await Breed.create({   //Para crear la raza uso el modelo Breed + create pq quedará en base de datos, no le paso temperamento pq está en una relación aparte en la DB
+          name,
+          image,
+          height_min,
+          height_max,
+          weight_min,
+          weight_max,
+          life_span,
+          createdInDb
+        })
+         let temperamentsDb = await Temperament.findAll({
+            where: {name:temperament}  //Debe ser igual al temperament que le paso por body
+        })
+        breedCreated.addTemperament(temperamentsDb)  //q al breedCreated le agregue el temperamento q está en la base de datos q coincidió con lo q viene del body. AddGenre pq el modelo se llama Genre
+        res.status(200).send('Breed created successfully')
+    } catch (err) {
+        console.log(err);
+    } 
+})
    
      
 module.exports = router;

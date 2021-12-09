@@ -1,8 +1,9 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
 import {useState, useEffect } from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import {postBreed, getTemperaments} from '../../actions';
+import style from './create.module.css';
 
 function validate(input){
     let errors = {}
@@ -15,75 +16,77 @@ function validate(input){
 }
 
 export default function BreedCreate(){
-    const dispatch = useDispatch()
-    const temperaments = useSelector((state) => state.temperaments)
-    const history = useHistory(); // metodo del router para redirigirme a la ruta que le diga
-    const [errors, setErrors] = useState ({}) //Estado local q arranca con objeto vacío
-
-    useEffect(()=> {
-        dispatch(getTemperaments())
-    },[dispatch]);
-
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const temperaments = useSelector((state) => state.temperaments);
+    const [errors, setErrors] = useState ({})
 
     const [input, setInput] = useState({
         name: '',
         image: '',
+        height_min: '',
+        height_max: '',
+        weight_min: '',
+        weight_max: '',
         life_span: '',
-        heightMin: '',
-        heightMax: '',
-        weightMin: '',
-        weightMax: '',
-        temperament: [] //Si coloco un string vacio no me da la posibilidad de colocar mas de 1 temperamento
+        temperament: []
     })
+
+    useEffect(() => {
+        dispatch(getTemperaments());
+    }, [])
 
     function handleChange(e){
         setInput({
             ...input,
-            [e.target.name] : e.target.value ////Cuando hago handleChange, primero se setea el input, a medida q voy escribiendo mi estado input va recibiendo y guardando lo q escribo y el e.target.name se setea en el e.target.value
+            [e.target.name]: e.target.value
         })
+        console.log(input)
         setErrors(validate({
             ...input,
             [e.target.name] : e.target.value
         }))
     }
 
-    function handleSelectTemperament(e){
-        setInput({...input, temperament:[...input.temperament, e.target.value]})
+    function handleSelect(e){
+        setInput({
+            ...input,
+            temperament: [...input.temperament, e.target.value],
+        })
     }
 
     function handleSubmit(e){
         e.preventDefault();
-        //if(input.heightMin >= 0 && input.weightMin >= 0 && parseInt(input.heightMax) >= parseInt(input.heightMin) && parseInt(input.weightMax) >= parseInt(input.weightMin) && input.name){
+        console.log(input);
         dispatch(postBreed(input))
-        alert('Dog created!')
+        alert('Dog created :)')
         setInput({
             name: '',
             image: '',
+            height_min: '',
+            height_max: '',
+            weight_min: '',
+            weight_max: '',
             life_span: '',
-            heightMin: '',
-            heightMax: '',
-            weightMin: '',
-            weightMax: '',
             temperament: []
         })
-/*     } else {
-        alert('Oops! Something went wrong!');
-    } */
-        history.push('/home')
+        history.push('./home')
     }
 
     function handleDeleteTemperaments(el){  
         setInput({...input, temperament: input.temperament.filter(tem => tem !== el)}) 
-       }
+    }
 
-    return(
+    return (
         <div>
-            <Link to= '/home'><button>Go back</button></Link>
+            <NavLink to= '/home' ><button className={style.backBtn}>Go back</button></NavLink>
             <h1>Create your own dog</h1>
+            <section className={style.form}>
             <form onSubmit={(e) => handleSubmit(e)}>
                 <div>
                     <label>Name:</label>
                     <input 
+                        className= {style.control}
                         type= 'text'
                         value= {input.name}
                         name= 'name'
@@ -96,67 +99,72 @@ export default function BreedCreate(){
                 <div>
                     <label>Image:</label>
                     <input
+                        className= {style.control}
                         type= 'text'
                         value= {input.image}
                         name= 'image'
                         onChange={(e)=>handleChange(e)}
                     />
-                    {errors.image && (
+                {errors.image && (
                         <p className='error'>{errors.image}</p>
                     )}
                 </div>
                 <div>
-                    <label>Life Span:</label>
-                    <input
-                        type= 'number'
-                        value= {input.life_span}
-                        name= 'life_span'
-                        onChange={(e)=>handleChange(e)}
-                    />
-                </div>
-                <div>
                     <label>Minimum height:</label>
-                    <input
+                    <input 
+                        className= {style.control}
                         type= 'number'
-                        value= {input.heightMin}
-                        name= 'heightMin'
+                        value= {input.height_min}
+                        name= 'height_min'
                         onChange={(e)=>handleChange(e)}
                     />
                 </div>
                 <div>
                     <label>Maximum height:</label>
-                    <input
+                    <input 
+                        className= {style.control}
                         type= 'number'
-                        value= {input.heightMax}
-                        name= 'heightMax'
+                        value= {input.height_max}
+                        name= 'height_max'
                         onChange={(e)=>handleChange(e)}
                     />
                 </div>
                 <div>
                     <label>Minimum weight:</label>
-                    <input
+                    <input 
+                        className= {style.control}
                         type= 'number'
-                        value= {input.weightMin}
-                        name= 'weightMin'
+                        value= {input.weight_min}
+                        name= 'weight_min'
                         onChange={(e)=>handleChange(e)}
                     />
                 </div>
                 <div>
                     <label>Maximum weight:</label>
-                    <input
+                    <input 
+                        className= {style.control}
                         type= 'number'
                         value= {input.weightMax}
-                        name= 'weightMax'
+                        name= 'weight_max'
                         onChange={(e)=>handleChange(e)}
                     />
                 </div>
-                <select onChange={(e) => handleSelectTemperament(e)}>
+                <div>
+                    <label>Life span:</label>
+                    <input 
+                        className= {style.control}
+                        type= 'text'
+                        value= {input.life_span}
+                        name= 'life_span'
+                        onChange={(e)=>handleChange(e)}
+                    />
+                </div>
+                <select className= {style.control} onChange={(e) => handleSelect(e)}>
                 <option value=''>Choose temperaments</option>
                     {temperaments.map((temp) => (
                         <option value={temp.name}>{temp.name}</option>
                     ))}
                 </select>
-{/*                 <ul><li>{input.temperament.map(el => ' *' + el)}</li></ul> */}
             </form>
             {input.temperament.map(el =>
                 <div className='divTemp'>
@@ -164,7 +172,9 @@ export default function BreedCreate(){
                     <button className='botonX' onClick={() => handleDeleteTemperaments(el)}>X</button>
                 </div>    
                 )}
-            <button type='submit'>Create dog</button>
+            <button type='submit' onSubmit={(e) => handleSubmit(e)}>Create dog!</button>
+            </section>
         </div>
     )
+
 }

@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import Card from '../Card/Card';
 import Paginado from '../Paginado/Paginado';
 import SearchBar from '../SearchBar/SearchBar';
+import style from "./Home.module.css"
 
 export default function Home(){
 
@@ -59,12 +60,9 @@ export default function Home(){
     }
 
     return(
-        <div>
-            <Link to= '/breed'> Create dog </Link>
-            <h1> All dog's in one place</h1>
-            <button onClick={e => {handleClick(e)}}>
-                Refresh
-            </button>
+        <div className={style.home}>
+            <Link to= '/breed' className={style.createbtn}> Create dog </Link>
+ {/*            <h1> All dog's in one place</h1> */}
             <div>
             <select onChange={e => handleFilterTemperaments(e)}>
                 <option value=''>Temperaments</option>
@@ -82,21 +80,26 @@ export default function Home(){
             </select>
             <select onChange={e => handleFilterWeight(e)}>
                 <option value= ''> Weight Sort </option> 
-                <option value= 'high'>More/Less</option>
+                <option value= 'more'>More/Less</option>
                 <option value= 'less'>Less/More</option>
             </select>
             <Paginado
                 breedsPerPage = {breedsPerPage} allBreeds = {allBreeds.length} paginado = {paginado} key = {paginado.toString()}
             />
             <SearchBar/>
+            <div className={style.cardContainer}>
             {currentBreeds?.map((c) =>{
                     return (
-                    <Link to={'/home/' + c.id}>
-                    <Card name={c.name} image={c.image} weight={c.weight} temperament={c.temperament} temperaments={c.temperaments} key={c.id}/>
+                    <Link className={style.link} to={'/home/' + c.id}>
+                    <Card name={c.name} image={c.image} weight={(c.createdInDb ? (c.weight_min + ' - ' + c.weight_max) : c.weight)} temperament={c.temperament} temperaments={c.temperaments} key={c.id}/>
                     </Link>
                     )
             })}
             </div>
+            </div>
+            <button className={style.reload} onClick={e => {handleClick(e)}}>
+                Refresh
+            </button>
         </div>
     )
 }
