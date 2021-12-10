@@ -19,14 +19,21 @@ function rootReducer (state= initialState, action){
   case 'GET_DETAILS': return {...state, detail: action.payload}
 
   case 'FILTER_BY_TEMPERAMENTS': {
-  if (!action.payload) return { ...state, breeds: state.backUpBreeds};
-
-     let filteredByTemperament = state.breeds.filter((e) => {
-      if (e.createdInDb) return e.temperaments.some((a) => a.name === action.payload)
-       return e.temperament.some((a) => a === action.payload)
-      })
-    return {...state, breeds: filteredByTemperament}
- }
+        const tempDogs = state.backUpBreeds
+        let tempFiltered = tempDogs.filter( e => {
+        if(e.temperament) {
+            return e.temperament.includes(action.payload)
+        }
+        if(e.temperaments) {
+            let temps = e.temperaments.map(e => e.name);
+            return temps.includes(action.payload);
+        }
+        return null
+    })
+    return {
+    ...state,
+    breeds : tempFiltered
+}}
   
   case 'FILTER_BY_WEIGHT': 
   if (action.payload === 'less') return { ...state, breeds: [...state.breeds].sort(function (a, b){

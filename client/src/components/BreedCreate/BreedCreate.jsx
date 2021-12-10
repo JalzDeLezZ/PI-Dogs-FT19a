@@ -92,9 +92,6 @@ export default function BreedCreate(){
                         name= 'name'
                         onChange={(e)=>handleChange(e)}
                     />
-                    {errors.name && (
-                        <p className='error'>{errors.name}</p>
-                    )}
                 </div>
                 <div>
                     <label>Image:</label>
@@ -105,9 +102,6 @@ export default function BreedCreate(){
                         name= 'image'
                         onChange={(e)=>handleChange(e)}
                     />
-                {errors.image && (
-                        <p className='error'>{errors.image}</p>
-                    )}
                 </div>
                 <div>
                     <label>Minimum height:</label>
@@ -159,12 +153,15 @@ export default function BreedCreate(){
                         onChange={(e)=>handleChange(e)}
                     />
                 </div>
+                <div>
                 <select className= {style.control} onChange={(e) => handleSelect(e)}>
                 <option value=''>Choose temperaments</option>
                     {temperaments.map((temp) => (
                         <option value={temp.name}>{temp.name}</option>
                     ))}
                 </select>
+                <button type='submit' onSubmit={(e) => handleSubmit(e)}>Create dog!</button>
+                </div>
             </form>
             {input.temperament.map(el =>
                 <div className='divTemp'>
@@ -172,7 +169,7 @@ export default function BreedCreate(){
                     <button className='botonX' onClick={() => handleDeleteTemperaments(el)}>X</button>
                 </div>    
                 )}
-            <button type='submit' onSubmit={(e) => handleSubmit(e)}>Create dog!</button>
+
             </section>
         </div>
     )
